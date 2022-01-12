@@ -1,7 +1,6 @@
 package woda.rotteneggs.common.item;
 
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -19,7 +18,6 @@ public class RottenEggArmorItem extends GeoArmorItem implements IAnimatable {
         super(materialIn, slot, builder);
     }
 
-    @SuppressWarnings("unused")
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.egg_hat.idle", true));
         return PlayState.CONTINUE;

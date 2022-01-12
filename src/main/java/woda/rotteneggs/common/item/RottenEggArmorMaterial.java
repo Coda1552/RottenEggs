@@ -1,12 +1,10 @@
 package woda.rotteneggs.common.item;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
-@SuppressWarnings("deprecation")
 public class RottenEggArmorMaterial implements ArmorMaterial {
 
     protected static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
