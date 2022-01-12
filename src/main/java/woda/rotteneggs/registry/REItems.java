@@ -25,7 +25,7 @@ public class REItems {
     public static RottenEggArmorMaterial EGG_HAT_ARMOR_MATERIAL = new RottenEggArmorMaterial("egg", 18,20, new int[]{1, 1, 1, 1}, SoundEvents.ARMOR_EQUIP_LEATHER, 0);
 
     public static final RegistryObject<RottenEggArmorItem> EGG_HAT = ITEMS.register("egg_hat",
-            () -> new RottenEggArmorItem(EGG_HAT_ARMOR_MATERIAL, EquipmentSlot.HEAD, new Item.Properties()));
+            () -> new RottenEggArmorItem(EGG_HAT_ARMOR_MATERIAL, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
     public static final RegistryObject<Item> ROTTEN_EGG_SPAWN_EGG = ITEMS.register("rotten_egg_spawn_egg", () -> new ForgeSpawnEggItem(REEntities.ROTTEN_EGG, 0xfbfcfc, 0xfff167, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
