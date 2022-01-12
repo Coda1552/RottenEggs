@@ -16,11 +16,6 @@ import woda.rotteneggs.registry.REEntities;
 public class CommonEvents {
 
     @SubscribeEvent
-    public static void createEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(REEntities.ROTTEN_EGG.get(), RottenEggEntity.createAttributes().build());
-    }
-
-    @SubscribeEvent
     public static void onEggLand(ProjectileImpactEvent event) {
         Projectile projectile = event.getProjectile();
         HitResult result = event.getRayTraceResult();

@@ -19,6 +19,6 @@ public class RottenEggModel extends AnimatedTickingGeoModel<RottenEggEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(RottenEggEntity animatable) {
-        return new ResourceLocation(RottenEggs.MOD_ID, "animations/entity/rotten_egg.animation.json");
+        return new ResourceLocation(RottenEggs.MOD_ID, "animations/entity/rotten_egg.animations.json");
     }
 }

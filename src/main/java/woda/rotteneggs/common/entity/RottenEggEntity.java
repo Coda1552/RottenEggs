@@ -1,12 +1,12 @@
 package woda.rotteneggs.common.entity;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -27,20 +27,20 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
 
     @Override
     protected void registerGoals() {
-        super.registerGoals();
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, Player.class, 6F, 1, 1.2));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createLivingAttributes().add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.ATTACK_DAMAGE, 0.5D);
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.ATTACK_DAMAGE, 0.5D);
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rotten_egg.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.egg.walk", true));
             return PlayState.CONTINUE;
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rotten_egg.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.egg.idle", true));
             return PlayState.CONTINUE;
         }
     }
