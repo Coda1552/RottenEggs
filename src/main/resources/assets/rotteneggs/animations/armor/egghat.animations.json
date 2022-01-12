@@ -1,0 +1,22 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.egg.idle": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"hat": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"yolk": {
+					"rotation": {
+						"vector": ["-1 + Math.cos((query.anim_time - 0.2) * 180) * 1", 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}
