@@ -35,7 +35,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.ATTACK_DAMAGE, 0.5D).add(Attributes.MAX_HEALTH, 6.0D);
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.ATTACK_DAMAGE, 0.5D).add(Attributes.MAX_HEALTH, 6.0D);
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
