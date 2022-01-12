@@ -12,6 +12,8 @@ import woda.rotteneggs.RottenEggs;
 import woda.rotteneggs.common.entity.RottenEggEntity;
 import woda.rotteneggs.registry.REEntities;
 
+import java.util.Random;
+
 @Mod.EventBusSubscriber(modid = RottenEggs.MOD_ID)
 public class CommonEvents {
 
@@ -19,8 +21,10 @@ public class CommonEvents {
     public static void onEggLand(ProjectileImpactEvent event) {
         Projectile projectile = event.getProjectile();
         HitResult result = event.getRayTraceResult();
+        Random rand = new Random();
 
-        if (projectile instanceof ThrownEgg egg && result.getType() == HitResult.Type.BLOCK) {
+
+        if (rand.nextInt(32) == 0 && projectile instanceof ThrownEgg egg && result.getType() == HitResult.Type.BLOCK) {
             RottenEggEntity rottenEgg = REEntities.ROTTEN_EGG.get().create(egg.level);
             rottenEgg.moveTo(egg.position());
             egg.level.addFreshEntity(rottenEgg);
