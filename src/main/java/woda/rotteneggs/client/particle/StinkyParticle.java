@@ -26,6 +26,7 @@ public class StinkyParticle extends RisingParticle {
         super.tick();
         move(0, 0.015, 0);
         this.setSpriteFromAge(this.sprites);
+        this.alpha -= 100;
     }
 
     @OnlyIn(Dist.CLIENT)

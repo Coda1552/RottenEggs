@@ -3,6 +3,7 @@ package woda.rotteneggs;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,11 +38,11 @@ public class RottenEggs {
     }
 
     private void rottenEggDeath(LivingDeathEvent event) {
-        Entity source = event.getSource().getEntity();
+        Entity source = event.getSource().getDirectEntity();
         LivingEntity target = event.getEntityLiving();
 
         if (source instanceof ThrownEgg && target instanceof RottenEggEntity) {
-            target.spawnAtLocation(new ItemStack(REItems.EGG_HAT.get()));
+            target.level.addFreshEntity(new ItemEntity(target.level, target.getX(), target.getY(), target.getZ(), new ItemStack(REItems.EGG_HAT.get())));
         }
     }
 }

@@ -1,16 +1,17 @@
 package woda.rotteneggs.common.entity;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
@@ -20,6 +21,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import woda.rotteneggs.registry.REItems;
 import woda.rotteneggs.registry.REParticles;
 
 public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnimationTickable {
@@ -43,11 +45,19 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.isProjectile() && source.getDirectEntity() instanceof ThrownEgg) {
-            return hurt(DamageSource.GENERIC, 2.0F);
+            System.out.println(source.getEntity());
+            return hurt(DamageSource.thrown(source.getEntity(), null), 2.0F);
         }
         else {
             return super.hurt(source, amount);
         }
+    }
+
+    @Override
+    public void thunderHit(ServerLevel world, LightningBolt p_19928_) {
+        level.addFreshEntity(new ItemEntity(level, getX(), getY(), getZ(), new ItemStack(REItems.EGG_HAT.get())));
+        discard();
+        super.thunderHit(world, p_19928_);
     }
 
     @Override
