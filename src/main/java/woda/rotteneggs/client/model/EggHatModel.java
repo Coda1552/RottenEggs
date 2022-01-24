@@ -10,16 +10,16 @@ import woda.rotteneggs.common.item.RottenEggArmorItem;
 public class EggHatModel extends AnimatedGeoModel<RottenEggArmorItem> {
     @Override
     public ResourceLocation getModelLocation(RottenEggArmorItem object) {
-        return new ResourceLocation(RottenEggs.MOD_ID, "geo/armor/egghat.geo.json");
+        return new ResourceLocation(RottenEggs.MOD_ID, "geo/armor/egg_hat.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureLocation(RottenEggArmorItem object) {
-        return new ResourceLocation(RottenEggs.MOD_ID, "textures/armor/egghat.png");
+        return new ResourceLocation(RottenEggs.MOD_ID, "textures/armor/egg_hat.png");
     }
 
     @Override
     public ResourceLocation getAnimationFileLocation(RottenEggArmorItem animatable) {
-        return new ResourceLocation(RottenEggs.MOD_ID, "animations/armor/egghat.animations.json");
+        return new ResourceLocation(RottenEggs.MOD_ID, "animations/armor/egg_hat.animations.json");
     }
 }

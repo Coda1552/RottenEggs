@@ -1,5 +1,9 @@
 {
   "item.rotteneggs.rotten_egg_spawn_egg": "Rotten Egg Spawn Egg",
-  "item.rotteneggs."
-  "entity.rotteneggs.rotten_egg": "Rotten Egg"
+  "item.rotteneggs.egg_hat": "Egg Hat",
+
+  "entity.rotteneggs.rotten_egg": "Rotten Egg",
+
+  "rotteneggs.advancements.eggcellent.title": "Eggcellent",
+  "rotteneggs.advancements.eggcellent.description": "Kill a Rotten Egg with eggs and obtain its loot"
 }
