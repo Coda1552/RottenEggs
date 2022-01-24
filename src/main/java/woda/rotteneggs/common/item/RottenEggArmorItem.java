@@ -19,7 +19,7 @@ public class RottenEggArmorItem extends GeoArmorItem implements IAnimatable {
     }
 
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.egg_hat.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.egg.idle", true));
         return PlayState.CONTINUE;
     }
 
