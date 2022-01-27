@@ -1,0 +1,33 @@
+{
+  "egg.ambient": {
+    "subtitle": "rotteneggs.egg.ambient",
+    "sounds": [
+      {
+        "name": "rotteneggs:rotten_egg_ambient1",
+        "stream": true
+      },
+      {
+        "name": "rotteneggs:rotten_egg_ambient2",
+        "stream": true
+      }
+    ]
+  },
+  "egg.hurt": {
+    "subtitle": "rotteneggs.egg.hurt",
+    "sounds": [
+      {
+        "name": "rotteneggs:rotten_egg_hurt",
+        "stream": true
+      }
+    ]
+  },
+  "egg.death": {
+    "subtitle": "rotteneggs.egg.death",
+    "sounds": [
+      {
+        "name": "rotteneggs:rotten_egg_death",
+        "stream": true
+      }
+    ]
+  }
+}

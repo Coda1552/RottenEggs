@@ -6,7 +6,7 @@ modId="rotteneggs" #mandatory
 version="${file.jarVersion}" #mandatory
 displayName="Rotten Eggs" #mandatory
 credits="" #optional
-authors="Coda, Wadoo" #optional
+authors="Coda, Wadoo, Mango" #optional
 description='''Evil eggs!'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.rotteneggs]] #optional

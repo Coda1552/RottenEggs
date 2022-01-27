@@ -15,7 +15,8 @@ public class EggHatModel extends AnimatedGeoModel<RottenEggArmorItem> {
 
     @Override
     public ResourceLocation getTextureLocation(RottenEggArmorItem object) {
-        return new ResourceLocation(RottenEggs.MOD_ID, "textures/armor/egg_hat.png");
+
+        return new ResourceLocation(RottenEggs.MOD_ID, "textures/armor/egg_hat" + "_" + object.getColour() + ".png");
     }
 
     @Override

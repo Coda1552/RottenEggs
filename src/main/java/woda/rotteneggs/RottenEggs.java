@@ -20,6 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -27,6 +28,7 @@ import woda.rotteneggs.common.entity.RottenEggEntity;
 import woda.rotteneggs.registry.REEntities;
 import woda.rotteneggs.registry.REItems;
 import woda.rotteneggs.registry.REParticles;
+import woda.rotteneggs.registry.RESounds;
 
 @Mod(RottenEggs.MOD_ID)
 public class RottenEggs {
@@ -39,10 +41,11 @@ public class RottenEggs {
         REEntities.ENTITIES.register(bus);
         REItems.ITEMS.register(bus);
         REParticles.PARTICLES.register(bus);
+        RESounds.SOUNDS.register(bus);
 
         bus.addListener(this::createEntityAttributes);
         forgeBus.addListener(this::rottenEggDeath);
-        forgeBus.addListener(this::newChickenAI);
+        forgeBus.addListener(this::newAI);
     }
 
     private void createEntityAttributes(EntityAttributeCreationEvent event) {
@@ -64,7 +67,7 @@ public class RottenEggs {
         }
     }
 
-    private void newChickenAI(EntityJoinWorldEvent event){
+    private void newAI(EntityJoinWorldEvent event){
         Entity entity = event.getEntity();
         if(entity instanceof Chicken){
             ((PathfinderMob) entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((PathfinderMob) entity, RottenEggEntity.class, 6.0F, 1.0D, 1.2D));
@@ -76,4 +79,7 @@ public class RottenEggs {
             ((PathfinderMob) entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((PathfinderMob) entity, RottenEggEntity.class, 6.0F, 1.0D, 1.2D));
         }
     }
+
+
+
 }
