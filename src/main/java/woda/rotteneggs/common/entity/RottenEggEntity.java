@@ -18,6 +18,7 @@ import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -30,14 +31,18 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import woda.rotteneggs.common.item.RottenEggArmorItem;
 import woda.rotteneggs.registry.REItems;
 import woda.rotteneggs.registry.REParticles;
 import woda.rotteneggs.registry.RESounds;
 
+import java.util.LinkedList;
+
 public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnimationTickable {
     private final AnimationFactory factory = new AnimationFactory(this);
     private static final EntityDataAccessor<Boolean> IS_SHEARED = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.BOOLEAN);
-
+    private static final EntityDataAccessor<Integer> HAT_NUM = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.INT);
+    public LinkedList<String> colours = new LinkedList<String>();
     public RottenEggEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
     }
@@ -46,6 +51,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(IS_SHEARED, false);
+        this.entityData.define(HAT_NUM, 1);
     }
 
     public void setSheared(boolean sheared){
@@ -54,6 +60,20 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
 
     public boolean getSheared(){
         return this.entityData.get(IS_SHEARED);
+    }
+
+    public void setHatNum(int num){
+        this.entityData.set(HAT_NUM, num);
+    }
+
+    public int getHatNum(){
+        return this.entityData.get(HAT_NUM);
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        this.colours.add("normal");
     }
 
     @Override
@@ -82,6 +102,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     @Override
     public void tick() {
         super.tick();
+        System.out.println(colours);
         if (random.nextDouble() > 0.65 && !getSheared()) {
             this.level.addParticle(REParticles.STINKY.get(), this.getRandomX(1.0D), this.getRandomY() + 0.15F, this.getRandomZ(1.0D), 0.0, 0.0, 0.0);
         }
@@ -89,6 +110,9 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
             this.level.addParticle(REParticles.STINKY.get(), this.getRandomX(1.0D), this.getRandomY() + 0.15F, this.getRandomZ(1.0D), 0.0, 0.0, 0.0);
         }
 
+        if(getHatNum() == 0){
+            this.setSheared(true);
+        }
 
     }
 
@@ -120,18 +144,23 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
         return RESounds.EGG_DEATH.get();
     }
 
+
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if(player.getItemInHand(hand).is(Items.SHEARS) && !this.getSheared()){
-            this.setSheared(true);
+        if(player.getItemInHand(hand).is(Items.SHEARS) && this.getHatNum() >= 1){
+            this.setHatNum(getHatNum() - 1);
+            this.colours.removeLast();
+            level.addFreshEntity(new ItemEntity(level, getX(), getY(), getZ(), new ItemStack(REItems.EGG_HAT.get())));
             player.getItemInHand(hand).hurtAndBreak(1, player, (p_29822_) -> {
                 p_29822_.broadcastBreakEvent(hand);
             });
-            level.addFreshEntity(new ItemEntity(level, getX(), getY(), getZ(), new ItemStack(REItems.EGG_HAT.get())));
             return InteractionResult.SUCCESS;
         }
-        if(player.getItemInHand(hand).is(REItems.EGG_HAT.get()) && this.getSheared()){
+        if(player.getItemInHand(hand).getItem() instanceof RottenEggArmorItem){
+            String hatColour = ((RottenEggArmorItem) player.getItemInHand(hand).getItem()).getColour();
             this.setSheared(false);
+            this.setHatNum(getHatNum() + 1);
+            this.colours.add(hatColour);
             player.getItemInHand(hand).shrink(1 );
             return InteractionResult.SUCCESS;
         }

@@ -9,19 +9,19 @@ public class RottenEggModel extends AnimatedTickingGeoModel<RottenEggEntity> {
 
     @Override
     public ResourceLocation getModelLocation(RottenEggEntity object) {
-        if(object.getSheared()){
+        //if(object.getSheared()){
             return new ResourceLocation(RottenEggs.MOD_ID, "geo/entity/sheared_egg.geo.json");
 
-        }
-        return new ResourceLocation(RottenEggs.MOD_ID, "geo/entity/rotten_egg.geo.json");
+        //}
+        //return new ResourceLocation(RottenEggs.MOD_ID, "geo/entity/rotten_egg.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureLocation(RottenEggEntity object) {
-        if(object.getSheared()){
+        //if(object.getSheared()){
             return new ResourceLocation(RottenEggs.MOD_ID, "textures/entity/sheared_egg.png");
-        }
-        return new ResourceLocation(RottenEggs.MOD_ID, "textures/entity/rotten_egg.png");
+        //}
+        //return new ResourceLocation(RottenEggs.MOD_ID, "textures/entity/rotten_egg.png");
     }
 
     @Override
