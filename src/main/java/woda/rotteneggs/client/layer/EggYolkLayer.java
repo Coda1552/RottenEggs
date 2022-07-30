@@ -21,7 +21,7 @@ import woda.rotteneggs.common.entity.RottenEggEntity;
 
 public class EggYolkLayer extends GeoLayerRenderer {
     private static final ResourceLocation MODEL = new ResourceLocation(RottenEggs.MOD_ID, "geo/entity/egg_yolk.geo.json");
-
+    ResourceLocation TEXTURE;
     @SuppressWarnings("unchecked")
     public EggYolkLayer(IGeoRenderer<?> entityRendererIn) {
         super(entityRendererIn);
@@ -45,10 +45,10 @@ public class EggYolkLayer extends GeoLayerRenderer {
         RenderUtils.scale(bone, matrixStackIn);
         RenderUtils.moveBackFromPivot(bone, matrixStackIn);
         if(bone.getName().equals("yolk")){
-            RottenEggEntity entity = (RottenEggEntity) e;
+            RottenEggEntity entity = e;
             if(!entity.colours.isEmpty()) {
-                for (int i = 0; i < entity.getHatNum(); i++) {
-                    ResourceLocation TEXTURE = new ResourceLocation(RottenEggs.MOD_ID, "textures/armor/egg_hat_"+ entity.colours.get(i)+".png");
+                for (int i = 0; i < entity.colours.toArray().length; i++) {
+                    TEXTURE = new ResourceLocation(RottenEggs.MOD_ID, "textures/armor/egg_hat_"+ entity.coloursID.get(i)+".png");
                     RenderType cameo =  RenderType.armorCutoutNoCull(TEXTURE);
                     matrixStackIn.pushPose();
                     //matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()));

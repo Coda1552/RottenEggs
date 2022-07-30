@@ -1,5 +1,9 @@
 package woda.rotteneggs.common.entity;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -36,13 +40,19 @@ import woda.rotteneggs.registry.REItems;
 import woda.rotteneggs.registry.REParticles;
 import woda.rotteneggs.registry.RESounds;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnimationTickable {
     private final AnimationFactory factory = new AnimationFactory(this);
     private static final EntityDataAccessor<Boolean> IS_SHEARED = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> HAT_NUM = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> HAT_NUM = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.);
     public LinkedList<String> colours = new LinkedList<String>();
+    public List<Integer> coloursID = new ArrayList<>();
+
     public RottenEggEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
     }
@@ -54,19 +64,19 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
         this.entityData.define(HAT_NUM, 1);
     }
 
-    public void setSheared(boolean sheared){
+    public void setSheared(boolean sheared) {
         this.entityData.set(IS_SHEARED, sheared);
     }
 
-    public boolean getSheared(){
+    public boolean getSheared() {
         return this.entityData.get(IS_SHEARED);
     }
 
-    public void setHatNum(int num){
+    public void setHatNum(int num) {
         this.entityData.set(HAT_NUM, num);
     }
 
-    public int getHatNum(){
+    public int getHatNum() {
         return this.entityData.get(HAT_NUM);
     }
 
@@ -74,7 +84,53 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     public void onAddedToWorld() {
         super.onAddedToWorld();
         this.colours.add("normal");
+        this.coloursID.add(0);
     }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putIntArray("colourId", this.coloursID);
+        tag.putInt("hatNum", this.getHatNum());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        //System.out.println(tag.getIntArray("colourId"));
+        this.setHatNum(tag.getInt("hatNum"));
+        this.coloursID = Arrays.stream(tag.getIntArray("colourId")).boxed().collect(Collectors.toList());
+        IDtoColour((ArrayList<Integer>) this.coloursID);
+}
+
+    public void IDtoColour(ArrayList<Integer> list){
+        for(Integer ID: list){
+            switch(ID){
+                case 0:
+                    this.colours.add("normal");
+                    break;
+                case 1:
+                    this.colours.add("red");
+                    break;
+                case 2:
+                    this.colours.add("blue");
+                    break;
+                case 3:
+                    this.colours.add("white");
+                    break;
+                case 4:
+                    this.colours.add("brown");
+                    break;
+                case 5:
+                    this.colours.add("black");
+                    break;
+                case 6:
+                    this.colours.add("green");
+                    break;
+            }
+        }
+    }
+
 
     @Override
     protected void registerGoals() {
@@ -102,6 +158,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     @Override
     public void tick() {
         super.tick();
+        System.out.println(coloursID);
         System.out.println(colours);
         if (random.nextDouble() > 0.65 && !getSheared()) {
             this.level.addParticle(REParticles.STINKY.get(), this.getRandomX(1.0D), this.getRandomY() + 0.15F, this.getRandomZ(1.0D), 0.0, 0.0, 0.0);
@@ -109,7 +166,9 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
         if(random.nextDouble() > 0.85 && getSheared()) {
             this.level.addParticle(REParticles.STINKY.get(), this.getRandomX(1.0D), this.getRandomY() + 0.15F, this.getRandomZ(1.0D), 0.0, 0.0, 0.0);
         }
-
+        this.colours.clear();
+        IDtoColour((ArrayList<Integer>) this.coloursID);
+        System.out.println(this.colours);
         if(getHatNum() == 0){
             this.setSheared(true);
         }
@@ -144,11 +203,10 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
         return RESounds.EGG_DEATH.get();
     }
 
-
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if(player.getItemInHand(hand).is(Items.SHEARS) && this.getHatNum() >= 1){
-            this.setHatNum(getHatNum() - 1);
+        if(player.getItemInHand(hand).is(Items.SHEARS) && this.getHatNum() >= 1 && this.getHatNum() < 16 ){
+            this.coloursID.remove(this.coloursID.toArray().length - 1);
             this.colours.removeLast();
             level.addFreshEntity(new ItemEntity(level, getX(), getY(), getZ(), new ItemStack(REItems.EGG_HAT.get())));
             player.getItemInHand(hand).hurtAndBreak(1, player, (p_29822_) -> {
@@ -157,10 +215,11 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
             return InteractionResult.SUCCESS;
         }
         if(player.getItemInHand(hand).getItem() instanceof RottenEggArmorItem){
-            String hatColour = ((RottenEggArmorItem) player.getItemInHand(hand).getItem()).getColour();
+            RottenEggArmorItem hat = (RottenEggArmorItem) player.getItemInHand(hand).getItem();
             this.setSheared(false);
             this.setHatNum(getHatNum() + 1);
-            this.colours.add(hatColour);
+            this.colours.add(hat.getColour());
+            this.coloursID.add(hat.getColourID());
             player.getItemInHand(hand).shrink(1 );
             return InteractionResult.SUCCESS;
         }

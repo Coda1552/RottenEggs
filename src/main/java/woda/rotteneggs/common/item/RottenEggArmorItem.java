@@ -1,6 +1,7 @@
 package woda.rotteneggs.common.item;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,14 +24,15 @@ import woda.rotteneggs.registry.REParticles;
 public class RottenEggArmorItem extends GeoArmorItem implements IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
     private String colour = "normal";
-
+    private int ID = 0;
     public RottenEggArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
         super(materialIn, slot, builder);
     }
 
-    public RottenEggArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, String color, Properties builder) {
+    public RottenEggArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, String color, int ID, Properties builder) {
         super(materialIn, slot, builder);
         this.colour = color;
+        this.ID = ID;
     }
 
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
@@ -43,6 +45,7 @@ public class RottenEggArmorItem extends GeoArmorItem implements IAnimatable {
         super.onArmorTick(stack, world, player);
         for(int i = 0; i < 1; i++) {
             if (player.getRandom().nextFloat() < 0.3) {
+                player.displayClientMessage(new TextComponent(getColourID().toString()), true);
                 world.addParticle(REParticles.STINKY.get(), player.getRandomX(0.65D), player.getY() + 2.15D, player.getRandomZ(0.65D), 0, 0.08, 0);
             }
         }
@@ -60,5 +63,9 @@ public class RottenEggArmorItem extends GeoArmorItem implements IAnimatable {
 
     public String getColour() {
         return this.colour;
+    }
+
+    public Integer getColourID(){
+        return this.ID;
     }
 }
