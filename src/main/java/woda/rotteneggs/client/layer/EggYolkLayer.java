@@ -21,23 +21,23 @@ import woda.rotteneggs.common.entity.RottenEggEntity;
 
 public class EggYolkLayer extends GeoLayerRenderer {
     private static final ResourceLocation MODEL = new ResourceLocation(RottenEggs.MOD_ID, "geo/entity/egg_yolk.geo.json");
-    ResourceLocation TEXTURE;
+    private static ResourceLocation TEXTURE;
+
     @SuppressWarnings("unchecked")
     public EggYolkLayer(IGeoRenderer<?> entityRendererIn) {
         super(entityRendererIn);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Entity e, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            GeoModel model = this.getEntityModel().getModel(MODEL);
-            for (GeoBone group : model.topLevelBones) {
-                renderRecursively(group, (RottenEggEntity) e, matrixStackIn, bufferIn, packedLightIn, partialTicks);
-            }
+        GeoModel model = this.getEntityModel().getModel(MODEL);
+
+        for (GeoBone group : model.topLevelBones) {
+            renderRecursively(group, (RottenEggEntity) e, matrixStackIn, bufferIn, packedLightIn, partialTicks);
+        }
     }
 
     private void renderRecursively(GeoBone bone, RottenEggEntity e, PoseStack matrixStackIn, MultiBufferSource renderBuffer, int packedLightIn, float partialTicks) {
-
         matrixStackIn.pushPose();
         RenderUtils.translate(bone, matrixStackIn);
         RenderUtils.moveToPivot(bone, matrixStackIn);

@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnimationTickable {
     private final AnimationFactory factory = new AnimationFactory(this);
     private static final EntityDataAccessor<Boolean> IS_SHEARED = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> HAT_NUM = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.);
+    private static final EntityDataAccessor<Integer> HAT_NUM = SynchedEntityData.defineId(RottenEggEntity.class, EntityDataSerializers.INT);
     public LinkedList<String> colours = new LinkedList<String>();
     public List<Integer> coloursID = new ArrayList<>();
 
@@ -131,7 +131,6 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
         }
     }
 
-
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -147,7 +146,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.isProjectile() && source.getDirectEntity() instanceof ThrownEgg) {
-            System.out.println(source.getEntity());
+            //System.out.println(source.getEntity());
             return hurt(DamageSource.thrown(source.getEntity(), null), 2.0F);
         }
         else {
@@ -158,18 +157,19 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
     @Override
     public void tick() {
         super.tick();
-        System.out.println(coloursID);
-        System.out.println(colours);
+
+        //System.out.println(coloursID);
+        //System.out.println(colours);
         if (random.nextDouble() > 0.65 && !getSheared()) {
             this.level.addParticle(REParticles.STINKY.get(), this.getRandomX(1.0D), this.getRandomY() + 0.15F, this.getRandomZ(1.0D), 0.0, 0.0, 0.0);
         }
-        if(random.nextDouble() > 0.85 && getSheared()) {
+        if (random.nextDouble() > 0.85 && getSheared()) {
             this.level.addParticle(REParticles.STINKY.get(), this.getRandomX(1.0D), this.getRandomY() + 0.15F, this.getRandomZ(1.0D), 0.0, 0.0, 0.0);
         }
         this.colours.clear();
         IDtoColour((ArrayList<Integer>) this.coloursID);
-        System.out.println(this.colours);
-        if(getHatNum() == 0){
+        //System.out.println(this.colours);
+        if (getHatNum() == 0) {
             this.setSheared(true);
         }
 
@@ -205,7 +205,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if(player.getItemInHand(hand).is(Items.SHEARS) && this.getHatNum() >= 1 && this.getHatNum() < 16 ){
+/*        if (player.getItemInHand(hand).is(Items.SHEARS) && this.getHatNum() >= 1 && this.getHatNum() < 16 ){
             this.coloursID.remove(this.coloursID.toArray().length - 1);
             this.colours.removeLast();
             level.addFreshEntity(new ItemEntity(level, getX(), getY(), getZ(), new ItemStack(REItems.EGG_HAT.get())));
@@ -214,7 +214,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
             });
             return InteractionResult.SUCCESS;
         }
-        if(player.getItemInHand(hand).getItem() instanceof RottenEggArmorItem){
+        if (player.getItemInHand(hand).getItem() instanceof RottenEggArmorItem) {
             RottenEggArmorItem hat = (RottenEggArmorItem) player.getItemInHand(hand).getItem();
             this.setSheared(false);
             this.setHatNum(getHatNum() + 1);
@@ -222,7 +222,7 @@ public class RottenEggEntity extends PathfinderMob implements IAnimatable, IAnim
             this.coloursID.add(hat.getColourID());
             player.getItemInHand(hand).shrink(1 );
             return InteractionResult.SUCCESS;
-        }
+        }*/
         return super.mobInteract(player, hand);
     }
 

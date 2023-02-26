@@ -57,28 +57,28 @@ public class RottenEggs {
     private void rottenEggDeath(LivingDeathEvent event) {
         Entity source = event.getSource().getEntity();
         LivingEntity target = event.getEntityLiving();
-        if(target instanceof RottenEggEntity){
-            for(byte i = 0; i < 18; i++) {
+        if (target instanceof RottenEggEntity) {
+            for (byte i = 0; i < 18; i++) {
                 target.level.addParticle(REParticles.STINKY.get(), target.getRandomX(2.0D), target.getBlockY() + target.getRandom().nextFloat(), target.getRandomZ(2.0D), 0, 0.08d,0);
             }
         }
-        if(source instanceof Fox){
-            ((Fox) source).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, false, true));
-            ((Fox) source).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 1, false, true));
-            ((Fox) source).addEffect(new MobEffectInstance(MobEffects.HUNGER, 80, 1, false, true));
+        if (source instanceof Fox fox) {
+            fox.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, false, true));
+            fox.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 1, false, true));
+            fox.addEffect(new MobEffectInstance(MobEffects.HUNGER, 80, 1, false, true));
         }
     }
 
     private void newAI(EntityJoinWorldEvent event){
         Entity entity = event.getEntity();
-        if(entity instanceof Chicken){
-            ((PathfinderMob) entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((PathfinderMob) entity, RottenEggEntity.class, 6.0F, 1.0D, 1.2D));
+        if (entity instanceof Chicken chicken) {
+            chicken.goalSelector.addGoal(3, new AvoidEntityGoal<>(chicken, RottenEggEntity.class, 6.0F, 1.0D, 1.2D));
         }
-        if(entity instanceof Fox){
-            ((PathfinderMob) entity).targetSelector.addGoal(2, new NearestAttackableTargetGoal<>((PathfinderMob) entity, RottenEggEntity.class, 0, true, false, null));
+        if (entity instanceof Fox fox) {
+            fox.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(fox, RottenEggEntity.class, 0, true, false, null));
         }
-        if(entity instanceof Monster){
-            ((PathfinderMob) entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((PathfinderMob) entity, RottenEggEntity.class, 6.0F, 1.0D, 1.2D));
+        if (entity instanceof Monster monster) {
+            monster.goalSelector.addGoal(3, new AvoidEntityGoal<>(monster, RottenEggEntity.class, 6.0F, 1.0D, 1.2D));
         }
     }
 
