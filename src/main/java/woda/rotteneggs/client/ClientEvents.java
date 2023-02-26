@@ -28,7 +28,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
-        GeoArmorRenderer.registerArmorRenderer(RottenEggArmorItem.class, new EggHatRenderer());
+        GeoArmorRenderer.registerArmorRenderer(RottenEggArmorItem.class, EggHatRenderer::new);
     }
 
     @SubscribeEvent

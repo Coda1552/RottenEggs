@@ -1,8 +1,6 @@
 package woda.rotteneggs.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.example.item.PotatoArmorItem;
-import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import woda.rotteneggs.RottenEggs;
 import woda.rotteneggs.common.item.RottenEggArmorItem;

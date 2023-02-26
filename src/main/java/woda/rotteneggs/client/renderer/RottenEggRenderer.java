@@ -21,7 +21,7 @@ public class RottenEggRenderer extends GeoEntityRenderer<RottenEggEntity> {
 
     public RottenEggRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new RottenEggModel());
-       this.addLayer(new EggYolkLayer(this));
+        //this.addLayer(new EggYolkLayer(this));
         this.shadowRadius = 0.4F;
     }
 

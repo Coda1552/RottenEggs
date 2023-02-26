@@ -1,7 +1,5 @@
 package woda.rotteneggs.client.renderer;
 
-import software.bernie.example.client.model.armor.PotatoArmorModel;
-import software.bernie.example.item.PotatoArmorItem;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import woda.rotteneggs.client.model.EggHatModel;
 import woda.rotteneggs.common.item.RottenEggArmorItem;
